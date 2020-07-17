@@ -55,31 +55,17 @@ def energy(img):
 
     return abs(img - img1) + abs(img - img2)
 
-def sumRGB(pixel):
-    return pixel[0] + pixel[1] + pixel[2]
-
 def findMinPath(e):
     r, c, _ = e.shape
     dp = np.zeros((r, c), dtype=int)
 
-    for i in range(c):
-        dp[0][i] = sumRGB(e[0][i])
+    dp[0] = np.sum(e[0], axis = 1)
     
     for i in range(1, r):
         dp[i][:-1] = np.minimum(dp[i - 1][:-1], dp[i - 1][1:])
         dp[i][-1] = dp[i - 1][-1]
         dp[i][1:] = np.minimum(dp[i][1:], dp[i - 1][:-1])
         dp[i] += np.sum(e[i], axis = 1)
-
-        # if you wanna check the correctness of the above magic, pls un-comment this
-        
-        # for j in range(0, c):
-        #     minVal = dp[i - 1][j]
-        #     if j > 0:
-        #         minVal = min(minVal, dp[i - 1][j - 1])
-        #     if j < c - 1:
-        #         minVal = min(minVal, dp[i - 1][j + 1])
-        #     assert(dp[i][j] == minVal + sumRGB(e[i][j]))
 
     trace = np.zeros(r, dtype=int)
     last = 0
