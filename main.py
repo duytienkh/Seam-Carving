@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+import pathlib
 
 def nothing(x):
     pass
@@ -20,13 +21,12 @@ def resize(h, w, img):
         e = np.transpose(e, (1, 0, 2))
         img = np.transpose(img, (1, 0, 2))
     if h > img_h:
-        pass
+        pass #do after
     if w < img_w:
         trace = findMinPath(e)
-        #img = colorPath(trace, img)
         img = remove(trace, img)
     if w > img_w:
-        pass
+        pass #do after
     return img
 
 def colorPath(trace, img, color = (0, 0, 255)):
@@ -70,6 +70,7 @@ def findMinPath(e):
         dp[i][-1] = dp[i - 1][-1]
         dp[i][1:] = np.minimum(dp[i][1:], dp[i - 1][:-1])
         dp[i] += np.sum(e[i], axis = 1)
+
         # if you wanna check the correctness of the above magic, pls un-comment this
         
         # for j in range(0, c):
@@ -106,12 +107,12 @@ def findMinPath(e):
 
 
 # main
-
-root = ''
-root = './Seam-Carving/'
+root = str(pathlib.Path(__file__).parent.absolute()) + '/img/'
 
 imgPath = root + 'img1.png'
 imgPath = root + 'img2.jpg'
+
+print(imgPath)
 
 img = cv.imread(imgPath)
 cv.namedWindow('image')
@@ -129,11 +130,6 @@ while (True):
         img = resize(h, w, img)
 
     cv.imshow('image', img)
-
-    #e = energy(img)
-    #e = np.transpose(e, (1, 0, 2)) # = e.T
-
-    #cv.imshow('energy', np.array(e, dtype=np.uint8))
 
     pressKey = cv.waitKey(1) & 0xFF
 
