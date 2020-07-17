@@ -115,12 +115,14 @@ imgPath = root + 'img2.jpg'
 print(imgPath)
 
 img = cv.imread(imgPath)
+
 cv.namedWindow('image')
-cv.namedWindow('slider')
+cv.namedWindow('slider', cv.WINDOW_NORMAL)
+cv.resizeWindow('slider', 512, 64)
 cv.createTrackbar('Height', 'slider', len(img), 2 * len(img), nothing)
 cv.createTrackbar('Width', 'slider', len(img[0]), 2 * len(img[0]), nothing)
 
-cv.imshow('slider', np.full((1, len(img[0]) + 100, 3), 255, dtype=np.uint8))
+cv.imshow('slider', np.full(1, 255, dtype=np.uint8))
 
 while (True):
     h = cv.getTrackbarPos('Height', 'slider')
