@@ -8,7 +8,7 @@ def resize(h, w, img):
     img_h = len(img)
     img_w = len(img[0])
 
-    print (img_h, img_w)
+    #print(img_h, img_w)
     
     e = energy(img)
 
@@ -105,6 +105,7 @@ root = ''
 root = './Seam-Carving/'
 
 imgPath = root + 'img1.png'
+imgPath = root + 'img2.jpg'
 
 img = cv.imread(imgPath)
 cv.namedWindow('image')
