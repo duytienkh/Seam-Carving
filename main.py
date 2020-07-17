@@ -66,13 +66,19 @@ def findMinPath(e):
         dp[0][i] = sumRGB(e[0][i])
     
     for i in range(1, r):
-        for j in range(0, c):
-            minVal = dp[i - 1][j]
-            if j > 0:
-                minVal = min(minVal, dp[i - 1][j - 1])
-            if j < c - 1:
-                minVal = min(minVal, dp[i - 1][j + 1])
-            dp[i][j] = minVal + sumRGB(e[i][j])
+        dp[i][:-1] = np.minimum(dp[i - 1][:-1], dp[i - 1][1:])
+        dp[i][-1] = dp[i - 1][-1]
+        dp[i][1:] = np.minimum(dp[i][1:], dp[i - 1][:-1])
+        dp[i] += np.sum(e[i], axis = 1)
+        # if you wanna check the correctness of the above magic, pls un-comment this
+        
+        # for j in range(0, c):
+        #     minVal = dp[i - 1][j]
+        #     if j > 0:
+        #         minVal = min(minVal, dp[i - 1][j - 1])
+        #     if j < c - 1:
+        #         minVal = min(minVal, dp[i - 1][j + 1])
+        #     assert(dp[i][j] == minVal + sumRGB(e[i][j]))
 
     trace = np.zeros(r, dtype=int)
     last = 0
