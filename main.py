@@ -1,6 +1,5 @@
 import cv2 as cv
 import numpy as np
-import pathlib
 
 def nothing(x):
     pass
@@ -92,36 +91,39 @@ def findMinPath(e):
     return trace
 
 
-# main
-root = str(pathlib.Path(__file__).parent.absolute()) + '/img/'
+def main():
+    root = 'img/'
 
-imgPath = root + 'img1.png'
-imgPath = root + 'img2.jpg'
+    imgPath = root + 'img1.png'
+    #imgPath = root + 'img2.jpg'
 
-print(imgPath)
+    print(imgPath)
 
-img = cv.imread(imgPath)
+    img = cv.imread(imgPath)
 
-cv.namedWindow('image')
-cv.namedWindow('slider', cv.WINDOW_NORMAL)
-cv.resizeWindow('slider', 512, 64)
-cv.createTrackbar('Height', 'slider', len(img), 2 * len(img), nothing)
-cv.createTrackbar('Width', 'slider', len(img[0]), 2 * len(img[0]), nothing)
+    cv.namedWindow('image')
+    cv.namedWindow('slider', cv.WINDOW_NORMAL)
+    cv.resizeWindow('slider', 512, 64)
+    cv.createTrackbar('Height', 'slider', len(img), 2 * len(img), nothing)
+    cv.createTrackbar('Width', 'slider', len(img[0]), 2 * len(img[0]), nothing)
 
-cv.imshow('slider', np.full(1, 255, dtype=np.uint8))
+    cv.imshow('slider', np.full(1, 255, dtype=np.uint8))
 
-while (True):
-    h = cv.getTrackbarPos('Height', 'slider')
-    w = cv.getTrackbarPos('Width', 'slider')
+    while (True):
+        h = cv.getTrackbarPos('Height', 'slider')
+        w = cv.getTrackbarPos('Width', 'slider')
 
-    if h != len(img) or w != len(img[0]):
-        img = resize(h, w, img)
+        if h != len(img) or w != len(img[0]):
+            img = resize(h, w, img)
 
-    cv.imshow('image', img)
+        cv.imshow('image', img)
 
-    pressKey = cv.waitKey(1) & 0xFF
+        pressKey = cv.waitKey(1) & 0xFF
 
-    if pressKey == ord('q'):
-        break
+        if pressKey == ord('q'):
+            break
 
-cv.destroyAllWindows()
+    cv.destroyAllWindows()
+
+if __name__ == "__main__":
+    main()
